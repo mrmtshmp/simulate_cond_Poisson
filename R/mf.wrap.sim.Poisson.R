@@ -74,6 +74,7 @@ mf.wrap.sim.Poisson <- function(
       sum(data_GS_0[,cov.names[3]])
       )/ (nrow(data_GS_0))
 
+  pdf(sprintf("%s/%s.pdf", dir.output, fn.output.pdf))
   for(i in 1:length(prevalance)){
 
     prev <- prevalance[i]
@@ -91,7 +92,6 @@ mf.wrap.sim.Poisson <- function(
     p.val_beta1 <-
       test %>% filter(terms=='varTotalFalse_Test_2')
 
-    pdf(sprintf("%s/%s.pdf", dir.output, fn.output.pdf))
     plot(
       ecdf(p.val_beta1[,'Pr...z..']),
       main=sprintf(
@@ -103,9 +103,9 @@ mf.wrap.sim.Poisson <- function(
     abline(
       h=0.8,
       v=c(0.10,0.05,0.025)
-      )
-    dev.off()
+    )
     }
+  dev.off()
   }
 
 # Endrant -----------------------------------------------------------------
