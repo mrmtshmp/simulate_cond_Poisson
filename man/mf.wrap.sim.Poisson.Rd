@@ -5,14 +5,16 @@
 \title{Power analysis of conditional Poisson or mixed-effect Poisson}
 \usage{
 mf.wrap.sim.Poisson(data, dir.sub = "./sub",
-  dir.output = "../Output/190803", sim.N = 640, n.sim = 200,
-  cov.names = c("GS", "Test_1", "Test_2"), method = "cPoisson",
-  prevalance = seq(0.3, 0.4, 0.02))
+  dir.output = "../Output/190803", fn.output.pdf = "Result",
+  sim.N = 640, n.sim = 200, cov.names = c("GS", "Test_1", "Test_2"),
+  method = "cPoisson", prevalance = seq(0.3, 0.4, 0.02))
 }
 \arguments{
 \item{data}{<object; input> A data.frame-class object .}
 
 \item{dir.output}{<character string; output> Directory to output results.}
+
+\item{fn.output.pdf}{<character string; output> Filename to output results.}
 
 \item{sim.N}{<numeric; processing> Itteration number.}
 
