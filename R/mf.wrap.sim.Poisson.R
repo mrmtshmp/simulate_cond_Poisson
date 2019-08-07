@@ -9,8 +9,8 @@
 #'@param data <object; input> A data.frame-class object .
 #'@param dir.output <character string; output> Directory to output results.
 #'@param fn.output.pdf <character string; output> Filename to output results.
-#'@param sim.N <numeric; processing> Itteration number.
-#'@param n.sim <numeric; processing> N of observation for simulation.
+#'@param sim.N <numeric; processing> N of observation for simulation.
+#'@param n.sim <numeric; processing> Itteration number.
 #'@param cov.name <character vector; input>
 #'@param method <character; proccessing; preset="cPoisson"> cPoisson or glmerPoisson
 #'

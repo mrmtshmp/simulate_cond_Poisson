@@ -16,9 +16,9 @@ mf.wrap.sim.Poisson(data, dir.sub = "./sub",
 
 \item{fn.output.pdf}{<character string; output> Filename to output results.}
 
-\item{sim.N}{<numeric; processing> Itteration number.}
+\item{sim.N}{<numeric; processing> N of observation for simulation.}
 
-\item{n.sim}{<numeric; processing> N of observation for simulation.}
+\item{n.sim}{<numeric; processing> Itteration number.}
 
 \item{method}{<character; proccessing; preset="cPoisson"> cPoisson or glmerPoisson}
 
