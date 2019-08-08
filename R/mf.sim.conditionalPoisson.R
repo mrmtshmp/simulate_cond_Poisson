@@ -31,43 +31,51 @@ mf.sim.condPoisson <- function(
   sim.N_1,
   sim.N_0
   ){
-  
+
   .data <- data
-  
+
   df.pmt <- data.frame(
     i=seq(1:n.sim),
     j=seq(1:n.sim)
   )
-  
+
   output <- ddply(
     df.pmt,
     .(i),
     function(itt){
       i.numb <- unique(itt$i)
       D <- .data
-      df.sim_GS_1 <- rmvbin(
-        sim.N_1, 
-        margprob = vect.margprob_GS_1[c(2,3)], 
-        bincorr = mat.cov_GS_1
-      ) %>%
-        data.frame() %>%
-        mutate(GS=1)
-      
-      df.sim_GS_0 <- bindata::rmvbin(
-        sim.N_0, 
-        margprob = vect.margprob_GS_0[c(2,3)], 
-        bincorr = mat.cov_GS_0
+      df.sim_GS_1 <-
+        abs(
+          1 -
+            rcorrvar2(
+              sim.N_1,
+              k_pois = 2,
+              method = "Fleishman",
+              lam = 1-vect.margprob_GS_1[c(2,3)],
+              rho  = mat.cov_GS_1
+            )$Poisson_variables
         ) %>%
         data.frame() %>%
+        mutate(GS=1, )
+
+      df.sim_GS_0 <- rcorrvar2(
+        sim.N_0,
+        k_pois = 2,
+        method = "Fleishman",
+        lam = vect.margprob_GS_0[c(2,3)],
+        rho  = mat.cov_GS_0
+        )$Poisson_variables %>%
+        data.frame() %>%
         mutate(GS=0)
-      
+
       df.sim <- df.sim_GS_0 %>%
         rbind(df.sim_GS_1)
-      
+
       colnames(df.sim) <- cov.names[c(2,3,1)]
-      
+
       df.sim$ID <- seq(1:nrow(df.sim))
-      
+
       df.sim.False <- df.sim %>%
         mutate(
           TotalFalse_Test_1 = abs(GS-Test_1),
@@ -82,20 +90,20 @@ mf.sim.condPoisson <- function(
         gather(var, val, -ID)
       print(
         c(
-          sum(df.sim.False[df.sim.False$var=='TotalFalse_Test_1','val']), 
+          sum(df.sim.False[df.sim.False$var=='TotalFalse_Test_1','val']),
           sum(df.sim.False[df.sim.False$var=='TotalFalse_Test_2','val'])
         )
       )
       m1a <- gnm(
-        val ~ 1 + var, eliminate = as.factor(ID), 
-        data = df.sim.False, 
+        val ~ 1 + var, eliminate = as.factor(ID),
+        data = df.sim.False,
         family = poisson(link = "log")
-        ) %>% 
+        ) %>%
         summary() %>%
         coef() %>%
         data.frame()%>%
         rownames_to_column('terms')
-      
+
       return(m1a)
     }
   )
